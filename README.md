@@ -19,9 +19,9 @@ Benchmark comparing LLM-based (GReaT) vs GAN-based (CTGAN, SDV) synthetic data g
 
 This benchmark uses three popular synthetic data generation libraries:
 
-- **[GReaT](https://github.com/kathrinse/be_great)** (be_great): LLM-based tabular data generation using transformer models
+- **[GReaT](https://github.com/tabularis-ai/be_great)** (be_great): LLM-based tabular data generation using transformer models
 - **[CTGAN](https://github.com/sdv-dev/CTGAN)**: Conditional Tabular GAN for synthetic data generation
-- **[SDV](https://github.com/sdv-dev/SDV)**: Synthetic Data Vault - comprehensive framework including CTGAN, CopulaGAN, and more
+- **[SDG](https://github.com/hitsz-ids/synthetic-data-generator)**: Synthetic Data Generator - comprehensive framework with multiple synthesis methods
 
 All frameworks were evaluated using their standard configurations with minimal preprocessing.
 
