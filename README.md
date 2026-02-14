@@ -15,6 +15,19 @@ Benchmark comparing LLM-based (GReaT) vs GAN-based (CTGAN, SDV) synthetic data g
 | CTGAN-3k | GAN | 3,000 | 86.00% | -0.20% |
 | Original | Real | 32,561 | 86.20% | Baseline |
 
+## Important Notes
+
+**These results are specific to the 3,000-sample configuration tested.**
+
+While our 3k samples achieved high ML accuracy scores, this does not guarantee superiority over a properly prepared 30k dataset with correct class proportions and distributions. Key considerations:
+
+- **Sample Coverage**: 3k data may lack rare edge cases and minority patterns present in larger 30k datasets
+- **Context Dependency**: Results reflect the Adult Census dataset characteristics; performance may vary on other domains
+- **Not a Universal Rule**: The "3k > 30k" finding applies to this specific experimental setup with balanced generation, not as a general recommendation
+- **Trade-offs**: Smaller datasets train faster and achieve good accuracy on common cases, but may miss long-tail distributions
+
+For production use, consider your specific requirements regarding coverage, diversity, and computational constraints when choosing sample size.
+
 ## Why GReaT Wins
 
 1. **Semantic Understanding**: LLM understands relationships (education → income)
