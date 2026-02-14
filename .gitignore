@@ -58,6 +58,9 @@ trainer_great/
 # Original dataset
 adult_census.csv
 
+# Research papers
+*.pdf
+
 # Results (generated) - but keep comparison chart
 results/temp/*.png
 results/temp/*.jpg
