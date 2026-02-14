@@ -4,16 +4,16 @@ Benchmark comparing LLM-based (GReaT) vs GAN-based (CTGAN, SDV) synthetic data g
 
 ## Key Finding
 
-**GReaT (LLM-based) outperforms GANs**: 93.92% accuracy vs 86.20% original data, using only 3,000 synthetic rows.
+**GReaT (LLM-based) outperforms GANs**: 93.53% accuracy vs 87.46% original data, using only 3,000 synthetic rows.
 
 ## Results
 
 | Framework | Type | Samples | Accuracy | vs Original |
 |-----------|------|---------|----------|-------------|
-| GReaT | LLM | 3,000 | 93.92% | +7.72% |
-| SDG-3k | GAN | 3,000 | 88.17% | +1.97% |
-| CTGAN-3k | GAN | 3,000 | 86.00% | -0.20% |
-| Original | Real | 32,561 | 86.20% | Baseline |
+| GReaT | LLM | 3,000 | 93.53% | +6.07% |
+| SDG-3k | GAN | 3,000 | 87.67% | +0.21% |
+| CTGAN-3k | GAN | 3,000 | 82.83% | -4.62% |
+| Original | Real | 32,561 | 87.46% | Baseline |
 
 ![Comparison Chart](results/comparison_chart.png)
 
@@ -88,8 +88,8 @@ Adult Census Income dataset from UCI ML Repository (32,561 rows, 15 features).
 
 - Train on full dataset (32k rows)
 - Generate ~3k synthetic samples
-- Evaluate with Random Forest classifier
-- Compare accuracy vs original data
+- Evaluate with XGBoost classifier
+- Compare accuracy, F1-score, AUC-ROC vs original data
 
 ## Citation
 
