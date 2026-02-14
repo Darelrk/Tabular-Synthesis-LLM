@@ -51,10 +51,9 @@ Thumbs.db
 *.h5
 *.hdf5
 
-# Results (generated)
-results/*.png
-results/*.jpg
-results/*.pdf
+# Results (generated) - but keep comparison chart
+results/temp/*.png
+results/temp/*.jpg
 
 # Logs
 *.log
