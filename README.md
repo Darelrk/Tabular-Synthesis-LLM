@@ -8,12 +8,12 @@ Benchmark comparing LLM-based (GReaT) vs GAN-based (CTGAN, SDV) synthetic data g
 
 ## Results
 
-| Framework | Type | Samples | Accuracy | vs Original |
-|-----------|------|---------|----------|-------------|
-| GReaT | LLM | 3,000 | 93.53% | +6.07% |
-| SDG-3k | GAN | 3,000 | 87.67% | +0.21% |
-| CTGAN-3k | GAN | 3,000 | 82.83% | -4.62% |
-| Original | Real | 32,561 | 87.46% | Baseline |
+| Framework | Type | Samples | Accuracy | AUC-ROC | Precision | Recall | F1 |
+|-----------|------|---------|----------|---------|-----------|--------|-----|
+| GReaT | LLM | 3,000 | **93.53%** | **0.9727** | 0.92 | 0.91 | 0.91 |
+| SDG-3k | GAN | 3,000 | 87.67% | 0.8767 | 0.84 | 0.83 | 0.83 |
+| CTGAN-3k | GAN | 3,000 | 82.83% | 0.8876 | 0.80 | 0.78 | 0.79 |
+| Original | Real | 32,561 | 87.46% | 0.9317 | 0.86 | 0.84 | 0.85 |
 
 ![Comparison Chart](results/comparison_chart.png)
 
