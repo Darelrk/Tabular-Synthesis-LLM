@@ -13,8 +13,8 @@
 All models trained on full dataset (32k rows) to learn complete distribution.
 
 ### Generation
-Each framework generates ~3,000 synthetic samples:
-- GReaT: 2,549 rows (via OpenRouter API)
+Each framework generates 3,000 synthetic samples:
+- GReaT: 3,000 rows (via OpenRouter API)
 - CTGAN: 3,000 rows
 - SDV: 3,000 rows
 

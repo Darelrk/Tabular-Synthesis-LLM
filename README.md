@@ -4,13 +4,13 @@ Benchmark comparing LLM-based (GReaT) vs GAN-based (CTGAN, SDV) synthetic data g
 
 ## Key Finding
 
-**GReaT (LLM-based) outperforms GANs**: 93.92% accuracy vs 86.20% original data, using only 2,549 synthetic rows.
+**GReaT (LLM-based) outperforms GANs**: 93.92% accuracy vs 86.20% original data, using only 3,000 synthetic rows.
 
 ## Results
 
 | Framework | Type | Samples | Accuracy | vs Original |
 |-----------|------|---------|----------|-------------|
-| GReaT | LLM | 2,549 | 93.92% | +7.72% |
+| GReaT | LLM | 3,000 | 93.92% | +7.72% |
 | SDG-3k | GAN | 3,000 | 88.17% | +1.97% |
 | CTGAN-3k | GAN | 3,000 | 86.00% | -0.20% |
 | Original | Real | 32,561 | 86.20% | Baseline |
