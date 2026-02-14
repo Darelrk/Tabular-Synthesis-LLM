@@ -19,6 +19,17 @@ Benchmark comparing LLM-based (GReaT) vs GAN-based (CTGAN, SDV) synthetic data g
 
 **These results are specific to the 3,000-sample configuration tested.**
 
+### Why 3,000 Samples?
+
+We selected 3,000 samples as a practical compromise between:
+- **Computational efficiency**: Faster generation and evaluation (minutes vs hours)
+- **Resource constraints**: Lower memory and storage requirements
+- **Experimental validation**: Sufficient for proof-of-concept without excessive costs
+
+For API-based generation (GReaT), 3k samples also minimizes API costs and rate limit issues while still demonstrating the approach's effectiveness.
+
+### Limitations
+
 While our 3k samples achieved high ML accuracy scores, this does not guarantee superiority over a properly prepared 30k dataset with correct class proportions and distributions. Key considerations:
 
 - **Sample Coverage**: 3k data may lack rare edge cases and minority patterns present in larger 30k datasets
