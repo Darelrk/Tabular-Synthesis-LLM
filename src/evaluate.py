@@ -54,23 +54,29 @@ def preprocess(df):
     """Preprocess data for ML."""
     df = df.dropna()
     
+    le_dict = {}
     for col in df.columns:
         if not pd.api.types.is_numeric_dtype(df[col]):
             df[col] = df[col].astype(str).str.strip()
-            df[col] = LabelEncoder().fit_transform(df[col])
+            le = LabelEncoder()
+            df[col] = le.fit_transform(df[col])
+            le_dict[col] = le
     
-    return df
+    return df, le_dict
 
 
 def evaluate_dataset(name, df):
     """Train and evaluate XGBoost on dataset."""
-    df = preprocess(df)
+    df, le_dict = preprocess(df)
     
     if len(df) < 100:
         return None
     
     X = df.drop('income', axis=1)
     y = df['income']
+    
+    # Get unique classes for log_loss
+    classes = np.unique(y)
     
     try:
         X_train, X_test, y_train, y_test = train_test_split(
@@ -95,15 +101,23 @@ def evaluate_dataset(name, df):
     y_pred = model.predict(X_test)
     y_pred_proba = model.predict_proba(X_test)
     
+    # Calculate metrics
     metrics = {
         'accuracy': accuracy_score(y_test, y_pred),
-        'precision': precision_score(y_test, y_pred, average='weighted', zero_division=0),
-        'recall': recall_score(y_test, y_pred, average='weighted', zero_division=0),
-        'f1': f1_score(y_test, y_pred, average='weighted', zero_division=0),
-        'auc_roc': roc_auc_score(y_test, y_pred_proba[:, 1]) if y_pred_proba.shape[1] == 2 else 0.5,
-        'log_loss': log_loss(y_test, y_pred_proba),
+        'precision': precision_score(y_test, y_pred, average='weighted'),
+        'recall': recall_score(y_test, y_pred, average='weighted'),
+        'f1': f1_score(y_test, y_pred, average='weighted'),
         'samples': len(df)
     }
+    
+    # AUC-ROC (only for binary classification)
+    if len(classes) == 2:
+        metrics['auc_roc'] = roc_auc_score(y_test, y_pred_proba[:, 1])
+        # Log loss with explicit labels
+        metrics['log_loss'] = log_loss(y_test, y_pred_proba, labels=classes)
+    else:
+        metrics['auc_roc'] = 0.5
+        metrics['log_loss'] = log_loss(y_test, y_pred_proba, labels=classes)
     
     return metrics
 
