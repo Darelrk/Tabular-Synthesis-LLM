@@ -51,6 +51,13 @@ Thumbs.db
 *.h5
 *.hdf5
 
+# Synthetic data (generated)
+synthetic_*.csv
+trainer_great/
+
+# Original dataset
+adult_census.csv
+
 # Results (generated) - but keep comparison chart
 results/temp/*.png
 results/temp/*.jpg
