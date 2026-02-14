@@ -58,3 +58,8 @@ results/temp/*.jpg
 # Logs
 *.log
 logs/
+
+# AI Assistant Memory Banks
+.opencode/
+.claude/
+memory-bank/
