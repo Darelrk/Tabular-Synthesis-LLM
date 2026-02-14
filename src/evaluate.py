@@ -1,18 +1,20 @@
 #!/usr/bin/env python3
 """
-Evaluate synthetic data quality using Random Forest classifier.
+Evaluate synthetic data quality using XGBoost with comprehensive metrics.
 
-Usage:
-    python evaluate.py
+Metrics: Accuracy, Precision, Recall, F1, AUC-ROC, Log Loss
 """
 
 import warnings
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
-from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import LabelEncoder
-from sklearn.metrics import accuracy_score, f1_score
+from sklearn.metrics import (
+    accuracy_score, precision_score, recall_score, f1_score,
+    roc_auc_score, log_loss
+)
+import xgboost as xgb
 
 warnings.filterwarnings('ignore')
 
@@ -61,7 +63,7 @@ def preprocess(df):
 
 
 def evaluate_dataset(name, df):
-    """Train and evaluate Random Forest on dataset."""
+    """Train and evaluate XGBoost on dataset."""
     df = preprocess(df)
     
     if len(df) < 100:
@@ -79,56 +81,95 @@ def evaluate_dataset(name, df):
             X, y, test_size=0.2, random_state=SEED
         )
     
-    rf = RandomForestClassifier(n_estimators=100, max_depth=10, random_state=SEED, n_jobs=8)
-    rf.fit(X_train, y_train)
+    model = xgb.XGBClassifier(
+        n_estimators=100,
+        max_depth=6,
+        learning_rate=0.1,
+        random_state=SEED,
+        use_label_encoder=False,
+        eval_metric='logloss',
+        n_jobs=8
+    )
     
-    y_pred = rf.predict(X_test)
+    model.fit(X_train, y_train)
+    y_pred = model.predict(X_test)
+    y_pred_proba = model.predict_proba(X_test)
     
-    return {
+    metrics = {
         'accuracy': accuracy_score(y_test, y_pred),
+        'precision': precision_score(y_test, y_pred, average='weighted', zero_division=0),
+        'recall': recall_score(y_test, y_pred, average='weighted', zero_division=0),
         'f1': f1_score(y_test, y_pred, average='weighted', zero_division=0),
+        'auc_roc': roc_auc_score(y_test, y_pred_proba[:, 1]) if y_pred_proba.shape[1] == 2 else 0.5,
+        'log_loss': log_loss(y_test, y_pred_proba),
         'samples': len(df)
     }
+    
+    return metrics
 
 
-def print_results(results, baseline_accuracy):
-    """Print comparison results."""
-    print("\nResults:")
-    print("-" * 60)
-    print(f"{'Dataset':<15} {'Accuracy':<12} {'F1-Score':<12} {'vs Original':<12}")
-    print("-" * 60)
+def print_results(results):
+    """Print comprehensive comparison results."""
+    print("\n" + "="*90)
+    print("COMPREHENSIVE EVALUATION RESULTS (XGBoost)")
+    print("="*90)
+    
+    print(f"\n{'Dataset':<15} {'Accuracy':<10} {'Precision':<10} {'Recall':<10} {'F1':<10} {'AUC-ROC':<10} {'LogLoss':<10}")
+    print("-"*90)
+    
+    baseline = results.get('Original', {})
     
     for name, metrics in results.items():
         if metrics:
-            diff = (metrics['accuracy'] - baseline_accuracy) * 100
-            diff_str = f"{diff:+.2f}%"
-            print(f"{name:<15} {metrics['accuracy']:<12.4f} {metrics['f1']:<12.4f} {diff_str:<12}")
+            print(f"{name:<15} "
+                  f"{metrics['accuracy']:<10.4f} "
+                  f"{metrics['precision']:<10.4f} "
+                  f"{metrics['recall']:<10.4f} "
+                  f"{metrics['f1']:<10.4f} "
+                  f"{metrics['auc_roc']:<10.4f} "
+                  f"{metrics['log_loss']:<10.4f}")
+    
+    print("\n" + "="*90)
+    print("COMPARISON VS ORIGINAL")
+    print("="*90)
+    
+    if baseline:
+        print(f"\n{'Dataset':<15} {'Accuracy':<12} {'F1':<12} {'AUC-ROC':<12}")
+        print("-"*60)
+        
+        for name, metrics in results.items():
+            if name != 'Original' and metrics:
+                acc_diff = (metrics['accuracy'] - baseline['accuracy']) * 100
+                f1_diff = (metrics['f1'] - baseline['f1']) * 100
+                auc_diff = (metrics['auc_roc'] - baseline['auc_roc']) * 100
+                
+                print(f"{name:<15} "
+                      f"{metrics['accuracy']:.4f} ({acc_diff:+.2f}%)  "
+                      f"{metrics['f1']:.4f} ({f1_diff:+.2f}%)  "
+                      f"{metrics['auc_roc']:.4f} ({auc_diff:+.2f}%)")
 
 
 def main():
     print("Loading datasets...")
     datasets = load_datasets()
     
-    print("Evaluating...")
+    print("Evaluating with XGBoost...")
     results = {}
     
     for name, df in datasets.items():
-        print(f"  {name}...", end=" ")
+        print(f"  Evaluating {name}...", end=" ")
         metrics = evaluate_dataset(name, df)
         if metrics:
             results[name] = metrics
-            print(f"Accuracy: {metrics['accuracy']:.4f}")
+            print(f"Accuracy: {metrics['accuracy']:.4f}, F1: {metrics['f1']:.4f}")
         else:
             print("Skipped")
     
-    baseline = results.get('Original', {}).get('accuracy', 0)
-    print_results(results, baseline)
+    print_results(results)
     
-    print("\nConclusion:")
-    if 'GReaT' in results:
-        great_acc = results['GReaT']['accuracy']
-        diff = (great_acc - baseline) * 100
-        print(f"GReaT achieves {great_acc:.2%} accuracy ({diff:+.2f}% vs original)")
+    print("\n" + "="*90)
+    print("EVALUATION COMPLETE")
+    print("="*90)
 
 
 if __name__ == "__main__":

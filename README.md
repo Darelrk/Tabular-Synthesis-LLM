@@ -15,6 +15,10 @@ Benchmark comparing LLM-based (GReaT) vs GAN-based (CTGAN, SDV) synthetic data g
 | CTGAN-3k | GAN | 3,000 | 86.00% | -0.20% |
 | Original | Real | 32,561 | 86.20% | Baseline |
 
+![Comparison Chart](results/comparison_chart.png)
+
+*Figure: Accuracy comparison across frameworks (3,000 samples each). GReaT (LLM) achieves the highest performance.*
+
 ## Frameworks
 
 This benchmark uses three popular synthetic data generation libraries:
