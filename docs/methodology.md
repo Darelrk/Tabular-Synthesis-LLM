@@ -19,10 +19,10 @@ Each framework generates 3,000 synthetic samples:
 - SDV: 3,000 rows
 
 ### Evaluation
-Random Forest Classifier (100 trees, max_depth=10):
+XGBoost Classifier (100 trees, max_depth=6):
 1. Train on synthetic data
 2. Test on held-out real data (20% split)
-3. Compare accuracy and F1-score
+3. Compare accuracy, F1-score, AUC-ROC, and other metrics
 
 ## Why This Design?
 

@@ -51,13 +51,13 @@ Statistically possible but logically unlikely.
 - Learn only from 32k training samples
 - No external knowledge
 
-## Results Proof
+## Results Proof (XGBoost Evaluation)
 
-| Framework | Accuracy | Reason |
-|-----------|----------|---------|
-| GReaT | 93.92% | Semantic understanding + logic |
-| SDG-3k | 88.17% | Good statistical replication |
-| CTGAN-3k | 86.00% | Basic pattern matching |
+| Framework | Accuracy | AUC-ROC | Reason |
+|-----------|----------|---------|---------|
+| GReaT | 93.53% | 0.9727 | Semantic understanding + logic |
+| SDG-3k | 87.67% | 0.8767 | Good statistical replication |
+| CTGAN-3k | 82.83% | 0.8876 | Basic pattern matching |
 
 ## Implications
 
