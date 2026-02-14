@@ -112,7 +112,9 @@ def evaluate_dataset(name, df):
     
     # AUC-ROC (only for binary classification)
     if len(classes) == 2:
-        metrics['auc_roc'] = roc_auc_score(y_test, y_pred_proba[:, 1])
+        # Get the index of the positive class (class with higher label value)
+        positive_class_idx = np.where(model.classes_ == max(model.classes_))[0][0]
+        metrics['auc_roc'] = roc_auc_score(y_test, y_pred_proba[:, positive_class_idx])
         # Log loss with explicit labels
         metrics['log_loss'] = log_loss(y_test, y_pred_proba, labels=classes)
     else:
