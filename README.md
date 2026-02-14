@@ -15,6 +15,16 @@ Benchmark comparing LLM-based (GReaT) vs GAN-based (CTGAN, SDV) synthetic data g
 | CTGAN-3k | GAN | 3,000 | 86.00% | -0.20% |
 | Original | Real | 32,561 | 86.20% | Baseline |
 
+## Frameworks
+
+This benchmark uses three popular synthetic data generation libraries:
+
+- **[GReaT](https://github.com/kathrinse/be_great)** (be_great): LLM-based tabular data generation using transformer models
+- **[CTGAN](https://github.com/sdv-dev/CTGAN)**: Conditional Tabular GAN for synthetic data generation
+- **[SDV](https://github.com/sdv-dev/SDV)**: Synthetic Data Vault - comprehensive framework including CTGAN, CopulaGAN, and more
+
+All frameworks were evaluated using their standard configurations with minimal preprocessing.
+
 ## Important Notes
 
 **These results are specific to the 3,000-sample configuration tested.**
